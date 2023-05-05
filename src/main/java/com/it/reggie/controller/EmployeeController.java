@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 
 @Slf4j
 @RestController
@@ -57,7 +58,7 @@ public class EmployeeController {
             return R.error("账号已禁用,登录失败");
         }
         // 6. 登录成功，将员工id存入session 并返回登录结果
-        request.getSession().setAttribute("employee",employee.getId());
+        request.getSession().setAttribute("employee",emp.getId());
         return R.success(emp) ;
 
     }
@@ -67,6 +68,33 @@ public class EmployeeController {
         // 清理session中保存的已登录的用户的id
         request.getSession().removeAttribute("employee");
         return R.success("退出成功") ;
+    }
+
+    /**
+     * 新增员工
+     * @param employee
+     * @return
+     */
+    @PostMapping()
+    public R<String> save(HttpServletRequest request ,@RequestBody Employee employee) {
+        log.info("新增员工" +employee.toString());
+        // 由于username 是唯一的，如果再增加一次显然是不对的.
+
+        // 设置初始密码
+        employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
+        //
+        employee.setCreateTime(LocalDateTime.now());
+        employee.setUpdateTime(LocalDateTime.now());
+
+        //创建人
+        Long empId = (Long)request.getSession().getAttribute("employee") ;
+        employee.setCreateUser(empId);
+        employee.setUpdateUser(empId);
+
+        employeeService.save(employee) ;
+
+
+        return R.success("新增员工成功") ;
     }
 
 }
