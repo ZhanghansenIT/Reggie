@@ -81,10 +81,11 @@
             <el-button
               type="text"
               size="small"
-              class="delBut non"
+              class="delBut non"statusHandle
               @click="statusHandle(scope.row)"
               v-if="user === 'admin'"
             >
+            <!--   如果当前登录的用户是admin则按钮显示 -->
               {{ scope.row.status == '1' ? '禁用' : '启用' }}
             </el-button>
           </template>
@@ -92,7 +93,7 @@
       </el-table>
       <el-pagination
         class="pageList"
-        :page-sizes="[4, 20, 30, 40]"
+        :page-sizes="[10, 20, 30, 40]"
         :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="counts"
@@ -118,7 +119,7 @@
              input: '',
              counts: 0,
              page: 1,
-             pageSize: 2,
+             pageSize: 10,
              tableData : [],
              id : '',
              status : '',
