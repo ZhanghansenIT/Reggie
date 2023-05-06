@@ -51,9 +51,8 @@
 实现
 1. 提供对象转换器JacksonObjectMapper,基于Jackson进行java对象到json数据的转换
 2. 在WebMvcConfig配置类中扩展Spring mvc的消息转化器，在此消息转换器中使用提供的对象转换器进行java对象到json数据的转化
-```java
-
-    /**
+```
+   /**
      * 扩展mvc框架的消息转换器
      * @param converters
      */
@@ -70,6 +69,37 @@
     }
 ```
 
+#### 5. 编辑员工信息
+需求分析
+    在员工管理列表页面点击编辑，跳转到编辑页面，在编辑页面回显员工信息并进行修改，
+    最后点击保存
 
+代码开发
+1. 点击编辑按钮，页面跳转到add.html ，并在url中携带员工的id(唯一标示)
+2. 在add.html页面获取url中的参数[员工id]
+3. 发送ajax请求,请求服务端,同时提交员工Id
+4. 服务端接收到请求,根据员工id查询员工信息,将员工信息以json形式响应给页面
+5. 页面回显员工信息
+6. 点击保存按钮,发送ajax请求,将页面中的员工信息以json的形式交给服务端
+7. 服务端接受到修改到的员工信息,并进行处理,完成后响应给页面
 
+---
+>  Update Date : 2023/5/6 周六 晴
+#### 新增菜品分类
+
+- 公共字段自动填充
+- 新增分类
+- 分类信息分页
+- 删除分类
+- 修改分类
+
+(1) Mybatis-Plus 提供公共字段自动填充
+- 在实体类属性上加入`@TableField`注解,指定自动填充策略
+- 按照框架要求编写元数据对象处理器,在此类中统一为公共字段赋值,
+   此类需要实现 ``MetaObjectHandler``接口
+```
+ // 更新时填充字段
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateTime ;
+```
 
