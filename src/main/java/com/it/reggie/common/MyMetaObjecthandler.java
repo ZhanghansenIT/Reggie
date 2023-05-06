@@ -13,20 +13,36 @@ import java.time.LocalDateTime;
 @Component
 @Slf4j
 public class MyMetaObjecthandler implements MetaObjectHandler {
+    /**
+     * 插入操作,自动填充
+     * @param metaObject
+     */
     @Override
     public void insertFill(MetaObject metaObject) {
         log.info("公共字段自动填充[insert]...");
         log.info(metaObject.toString());
         metaObject.setValue("createTime", LocalDateTime.now());
         metaObject.setValue("updateTime",LocalDateTime.now());
-        //TODO
-        metaObject.setValue("createUser",new Long(1));
-        metaObject.setValue("updateUser",new Long(1));
+
+
+        // 改进如果获取当前用户的id
+        // 使用ThreadLocal类
+        metaObject.setValue("createUser",BaseContext.getCurrentId());
+        metaObject.setValue("updateUser",BaseContext.getCurrentId());
     }
 
+    /**
+     * 更新操作,自动填充
+     * @param metaObject
+     */
     @Override
     public void updateFill(MetaObject metaObject) {
         log.info("公共字段自动填充[update]...");
+        long id = Thread.currentThread().getId() ;
+
+        log.info("当前线程的id:{}",id );
         log.info(metaObject.toString());
+        metaObject.setValue("updateTime",LocalDateTime.now());
+        metaObject.setValue("updateUser",BaseContext.getCurrentId());
     }
 }

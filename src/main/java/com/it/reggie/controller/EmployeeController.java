@@ -127,7 +127,8 @@ public class EmployeeController {
 
     @PutMapping()
     public R<String> update(HttpServletRequest request ,@RequestBody Employee employee){
-
+        long id = Thread.currentThread().getId() ;
+        log.info("当前线程的id:{}",id );
         log.info(employee.toString());
         Long empId = (Long)request.getSession().getAttribute("employee")  ;
         employee.setUpdateUser(empId);

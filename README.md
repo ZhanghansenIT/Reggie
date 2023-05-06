@@ -93,13 +93,56 @@
 - 删除分类
 - 修改分类
 
-(1) Mybatis-Plus 提供公共字段自动填充
+##### (1) Mybatis-Plus 提供公共字段自动填充
 - 在实体类属性上加入`@TableField`注解,指定自动填充策略
 - 按照框架要求编写元数据对象处理器,在此类中统一为公共字段赋值,
    此类需要实现 ``MetaObjectHandler``接口
 ```
  // 更新时填充字段
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime ;
+@TableField(fill = FieldFill.INSERT_UPDATE)
+private LocalDateTime updateTime ;
 ```
+解决: 填充 'createUser' 和'updateUser' 字段
+客户端发送一个请求,服务端就有一个线程处理 (一次请求)
+**ThreadLocal**
+ThreadLocal不是一个Thread,而是Thread的局部变量.当使用ThreadLocal维护变量的时候,ThreadLocal为
+每个使用该变量的线程提供独立的变量副本,所以每一个线程都可以独立的改变自己的副本,
+而不影响其他线程.**Threadlocal**为每一个线程提供单独一份存储空间,具有线程隔离的
+效果,只有在线程内才能获取到对应的值,线程外则不能访问.
+
+ThreadLocal常用的方法
+- public void set(value ) 设置当前线程的线程局部变量的值
+- public get()            返回当前线程所对应的线程局部变量的值
+
+代码实现 
+1. 编写一个BaseContext工具类,基于ThreadLocal封装的工具类
+```java
+public class BaseContext {
+    private static ThreadLocal<Long> threadLocal = new ThreadLocal<>(); 
+    public static void setCurrentId(Long id){
+        threadLocal.set(id) ;
+    }
+    public static Long getCurrentId(){
+        return threadLocal.get() ;
+    }
+    
+}
+```
+2. 在LoginCheckFilter的 doFilter中调用BaseContext来设置当前登录用户的id
+3. 在MyMetaObjectHandler的方法中调用BaseContext获取登录用户的id 
+
+##### (2) 新增分类
+
+需求分析
+后台系统中可以管理分类信息,分类包括两种类型,分别是菜品分类和套餐分类.
+当我们在后台系统中添加菜品时需要选择一个菜品分类,
+当我们在后台系统中添加套餐时需要选择一个套餐分类.
+
+代码开发
+- 实体类Category
+- mapper接口CategoryMapper
+- 业务层接口CategoryService
+- 业务层实现类CategoryServiceImpl
+- 控制层CategoryController
+
 
