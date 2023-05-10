@@ -146,3 +146,32 @@ public class BaseContext {
 - 控制层CategoryController
 
 
+##### 分类信息分页查询
+需求分析
+分页展示列表
+代码开发
+1. 页面发送ajax请求,将分页查询参数(page,pageSize)提交服务器
+2. 服务端Controller,接受页面提交的数据并调用Service,查询数据
+3. Service调用mapper操作数据库,查询分页数据
+4. Controller将查询到的数据响应给页面
+5. 页面接收到的分页数据渲染
+
+#### 删除分类
+需求分析
+在分类管理页面,可以对某个分类进行删除,当分类关联了套餐分类或者菜品分类时不能删除
+
+**代码开发**
+1. 页面发送ajax请求,将要删除的菜品id参数提交到服务器
+2. 服务端Controller接受页面提交的数据并调用Service删除数据
+3. Service调用Mapper操作数据库
+> Update Date : 2023/5/10 周三
+
+**功能完善**
+1. 实体类Dish和setmeal
+2. Mapper接口DishMapper 和SetmealMapper
+3. Service接口DishService 和SetmealService
+4. Service实现类DishServiceimpl和SetmealServiceimpl
+
+在CategoryService接口增加一个方法 remove(id ) ; 
+
+完成修改菜品分类
