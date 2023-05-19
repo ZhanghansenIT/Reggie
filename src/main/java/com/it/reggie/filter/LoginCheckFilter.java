@@ -31,7 +31,8 @@ public class LoginCheckFilter implements Filter {
                 "/employee/login",
                 "/employee/logout",
                 "/backend/**",
-                "/front/**"
+                "/front/**",
+                "/common/**"
         } ;
 
         //2. 判断本次请求是否要处理
@@ -39,7 +40,7 @@ public class LoginCheckFilter implements Filter {
 
         //3. 如果不需要处理，则直接放行
         if(check){
-            log.info("本次请求不需要处理");
+//            log.info("本次请求不需要处理");
             filterChain.doFilter(request,response);
             return ;
         }

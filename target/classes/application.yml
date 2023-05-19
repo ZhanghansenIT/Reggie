@@ -22,5 +22,5 @@ mybatis-plus:
       id-type: ASSIGN_ID
 
 
-#reggie:
-#  path: C:\img\
+reggie:
+  path: /home/zhs/IdeaProjects/reggie_take_out/src/main/resources/images/

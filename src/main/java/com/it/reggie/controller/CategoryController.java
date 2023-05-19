@@ -68,12 +68,12 @@ public class CategoryController {
     }
 
     /**
-     * 修改菜品信息
+     * 修改分类菜品信息
      * @return
      */
     @PutMapping()
     public R<String> update(@RequestBody Category category){
-        log.info("修改信息id : {}" ,category.getId());
+        log.info("修改分类信息id : {}" ,category.getId());
 
         categoryService.updateById(category) ;
         return R.success("修改成功" );

@@ -175,3 +175,36 @@ public class BaseContext {
 在CategoryService接口增加一个方法 remove(id ) ; 
 
 完成修改菜品分类
+
+> Date: 2023/5/19 周五
+#### 菜品管理
+目录
+- 文件上传下载
+- 新增菜品
+- 菜品信息分页查询
+- 修改菜品
+
+##### 文件上传下载
+1. 文件上传
+2. 文件下载
+3. 文件上传代码
+4. 文件下载代码
+
+文件上传时,对页面的form表单要求:
+- 采用post请求提交数据
+- 采用multipart格式上传
+- 使用input的file控件上传
+
+```html
+<form method="pos" action="" enctype="multipart/form-data">
+    <input name="myFile" type="file">
+    <input type="submit" value="提交">
+</form>
+```
+文件上传: 上传到指定文件位置 ,文件名字用UUID生成
+
+
+文件下载,也称为download,是指将文件从服务器传输到第计算机的过程
+通过浏览器进行文件下载
+
+
