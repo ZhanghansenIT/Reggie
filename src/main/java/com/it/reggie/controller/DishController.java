@@ -105,8 +105,43 @@ public class DishController {
 
         DishDto  dishDto =  dishService.getByIdWithFlavor(id) ;
 
+        log.info(dishDto.toString());
+
         return R.success(dishDto);
     }
 
+    /**
+     * 修改菜品
+     * @param dishDto
+     * @return
+     */
+    @PutMapping
+    public R<String> update(@RequestBody DishDto dishDto){
+        log.info(dishDto.toString());
+        dishService.updateWithFlavor(dishDto)  ;
+
+        return R.success("修改菜品成功" ) ;
+    }
+
+    /**
+     * 根据条件查询对应的菜品数据
+     * @param dish
+     * @return
+     */
+    @GetMapping("/list")
+    public R<List<Dish>> list( Dish dish){
+
+        // 构造查询查询条件
+        LambdaQueryWrapper<Dish> queryWrapper = new LambdaQueryWrapper<>() ;
+        // 添加排序条件
+        queryWrapper.eq(dish.getCategoryId() !=null ,Dish::getCategoryId,dish.getCategoryId()) ;
+        queryWrapper.eq(Dish::getStatus,1) ;// 查询状态是1 (起售状态,0表示停售) ;
+
+        queryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime) ;
+        List<Dish> dishList =  dishService.list(queryWrapper) ;
+
+
+        return R.success(dishList);
+    }
 
 }
