@@ -137,4 +137,19 @@ public class SetmealController {
         return R.success(setmealDto);
     }
 
+    /**
+     * 根据条件查询数据
+     * @param setmeal
+     * @return
+     */
+    @GetMapping("/list")
+    public R<List<Setmeal>> list( Setmeal setmeal) {
+        LambdaQueryWrapper<Setmeal> queryWrapper = new LambdaQueryWrapper() ;
+        queryWrapper.eq(setmeal.getCategoryId() !=null,Setmeal::getCategoryId,setmeal.getCategoryId()) ;
+        queryWrapper.eq(setmeal.getStatus()!=null,Setmeal::getStatus,setmeal.getStatus())  ;
+        //排序
+        queryWrapper.orderByDesc(Setmeal::getUpdateTime)  ;
+        List<Setmeal> setmealList = setmealService.list(queryWrapper);
+        return R.success(setmealList);
+    }
 }
