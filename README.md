@@ -378,6 +378,16 @@ public class BaseContext {
 3. 在订单确认页面,发送ajax请求,请求服务端获取当前登录用户的购物车数据
 4. 在订单确认页面点击`去支付`,发送ajax请求,请求服务端完成下单操作
 
+代码开发
+
+在开发业务功能之前,先将需要用到的类和接口基本的结构创建好
+
+- 实体类 Orders , OrderDetail 
+- Mapper接口 OrderMapper ,OrderDetailMapper 
+- 业务层 OrderService ,OrderDetailService
+- 控制层 OrderController ,OrderDetailControler
+
+
 
 
 
